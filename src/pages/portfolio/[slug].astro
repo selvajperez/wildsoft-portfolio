@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('portfolio');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+---
+<BaseLayout title={`${project.data.title} — WildSoft`} description={project.data.summary}>
+  <Header />
+  <article class="section" style="padding-top: 60px; max-width: 760px;">
+    <a href="/portfolio" class="mono" style="font-size: 13px; color: var(--muted); text-decoration: none;">← Portfolio</a>
+    <div class="mono" style="font-size: 12px; letter-spacing: 0.12em; color: var(--accent); margin: 30px 0 12px;">{project.data.category}</div>
+    <h1 style="font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 52px; line-height: 1.05; margin: 0 0 26px;">{project.data.title}</h1>
+    {project.data.image && (
+      <img src={project.data.image} alt={project.data.title} style="width: 100%; border-radius: 6px; margin-bottom: 34px; display: block;" />
+    )}
+    <div class="ws-prose" style="font-size: 18px; line-height: 1.8; color: var(--ink-soft);">
+      <Content />
+    </div>
+  </article>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .ws-prose :global(h2) {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    color: var(--ink);
+    margin: 34px 0 14px;
+  }
+  .ws-prose :global(p) { margin: 0 0 20px; }
+  .ws-prose :global(ul) { margin: 0 0 20px; padding-left: 22px; }
+  .ws-prose :global(li) { margin-bottom: 8px; }
+  .ws-prose :global(em) { color: var(--green); }
+</style>

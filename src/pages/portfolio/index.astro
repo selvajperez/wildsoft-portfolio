@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PortfolioCard from '../../components/PortfolioCard.astro';
+
+const projects = (await getCollection('portfolio')).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout title="Portfolio — WildSoft">
+  <Header />
+  <section class="section" style="padding-top: 60px;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 30px; margin-bottom: 40px; flex-wrap: wrap; gap: 12px;">
+      <h1 style="font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 44px; margin: 0;">Portfolio <span class="mono" style="font-size: 13px; color: var(--muted); letter-spacing: 0.1em;">/ SELECTED WORK</span></h1>
+      <span class="mono" style="font-size: 13px; color: var(--muted);">01 — {String(projects.length).padStart(2, '0')}</span>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 34px;">
+      {projects.map((project) => (
+        <PortfolioCard
+          slug={project.slug}
+          title={project.data.title}
+          category={project.data.category}
+          summary={project.data.summary}
+          image={project.data.image}
+          order={project.data.order}
+        />
+      ))}
+    </div>
+  </section>
+  <Footer />
+</BaseLayout>

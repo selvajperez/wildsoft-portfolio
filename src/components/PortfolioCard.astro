@@ -1,0 +1,35 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  category: string;
+  summary: string;
+  image?: string;
+  order: number;
+}
+const { slug, title, category, summary, image, order } = Astro.props;
+
+const patterns = [
+  'repeating-linear-gradient(135deg, #d9cca6 0 12px, #e6dcbe 12px 24px)',
+  'repeating-linear-gradient(135deg, #b9c99a 0 12px, #c9d6ac 12px 24px)',
+  'repeating-linear-gradient(135deg, #cbb487 0 12px, #d8c79c 12px 24px)',
+  'repeating-linear-gradient(135deg, #9fbfa8 0 12px, #b3ccb9 12px 24px)',
+];
+const pattern = patterns[(order - 1) % patterns.length];
+---
+<article style="background: var(--card); border: 1px solid var(--border-soft); border-radius: 6px; overflow: hidden;">
+  <a href={`/portfolio/${slug}`} style="text-decoration: none; color: inherit; display: block;">
+    {image ? (
+      <div style={`height: 190px; background: ${pattern}; background-size: cover; background-position: center;`}>
+        <img src={image} alt={title} style="width: 100%; height: 100%; object-fit: cover; object-position: top; display: block;" />
+      </div>
+    ) : (
+      <div style={`height: 190px; background: ${pattern};`}></div>
+    )}
+    <div style="padding: 22px 24px 26px;">
+      <div class="mono" style="font-size: 11px; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 10px;">{category}</div>
+      <h3 style="font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 27px; margin: 0 0 8px;">{title}</h3>
+      <p style="margin: 0; font-size: 15px; line-height: 1.6; color: var(--green);">{summary}</p>
+    </div>
+  </a>
+</article>

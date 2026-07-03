@@ -1,0 +1,18 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  date: Date;
+  excerpt: string;
+}
+const { slug, title, date, excerpt } = Astro.props;
+const formatted = date.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }).replace('.', '').toUpperCase();
+---
+<a href={`/notas/${slug}`} style="text-decoration: none; color: inherit; display: grid; grid-template-columns: 130px 1fr auto; gap: 28px; align-items: baseline; padding: 22px 0; border-bottom: 1px solid var(--border);">
+  <span class="mono" style="font-size: 13px; color: var(--muted);">{formatted}</span>
+  <span>
+    <span style="font-family: 'Cormorant Garamond', serif; font-size: 25px; font-weight: 600;">{title}</span><br />
+    <span style="font-size: 15px; color: var(--green); font-style: italic;">{excerpt}</span>
+  </span>
+  <span class="mono" style="font-size: 13px; color: var(--accent);">→</span>
+</a>

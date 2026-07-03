@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notas');
+  return notes.map((note) => ({
+    params: { slug: note.slug },
+    props: { note },
+  }));
+}
+
+const { note } = Astro.props;
+const { Content } = await note.render();
+const formatted = note.data.date.toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' });
+---
+<BaseLayout title={`${note.data.title} — WildSoft`} description={note.data.excerpt}>
+  <Header />
+  <article class="section" style="padding-top: 60px; max-width: 700px;">
+    <a href="/notas" class="mono" style="font-size: 13px; color: var(--muted); text-decoration: none;">← Notas</a>
+    <div class="mono" style="font-size: 12px; letter-spacing: 0.12em; color: var(--muted); margin: 30px 0 12px;">{formatted}</div>
+    <h1 style="font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 48px; line-height: 1.08; margin: 0 0 16px;">{note.data.title}</h1>
+    <p style="font-family: 'Spectral', serif; font-style: italic; font-size: 19px; color: var(--green); margin: 0 0 34px;">{note.data.excerpt}</p>
+    <div class="ws-prose" style="font-size: 18px; line-height: 1.8; color: var(--ink-soft);">
+      <Content />
+    </div>
+  </article>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .ws-prose :global(p) { margin: 0 0 20px; }
+  .ws-prose :global(em) { color: var(--green); }
+</style>

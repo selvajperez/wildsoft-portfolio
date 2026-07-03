@@ -1,0 +1,18 @@
+---
+import { site } from '../data/site';
+---
+<header style="display: flex; align-items: center; justify-content: space-between; padding: 64px 64px 22px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 20px;">
+  <a href="/" style="display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit;">
+    <img src="/images/wildsoft-logo.png" alt="WildSoft" style="width: 46px; height: 46px; object-fit: contain; mix-blend-mode: multiply;">
+    <div style="line-height: 1;">
+      <div style="font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 24px; letter-spacing: 0.01em;">{site.name}</div>
+      <div class="mono" style="font-size: 10px; letter-spacing: 0.18em; color: var(--green-label); margin-top: 3px;">{site.tagline}</div>
+    </div>
+  </a>
+  <nav style="display: flex; align-items: center; gap: 34px; font-size: 15px;">
+    <a href="/" style="text-decoration: none;">Inicio</a>
+    <a href="/portfolio" style="text-decoration: none;">Portfolio</a>
+    <a href="/notas" style="text-decoration: none;">Notas</a>
+    <a href="/#sobre-mi" style="text-decoration: none;">Sobre mí</a>
+  </nav>
+</header>

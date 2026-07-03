@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import NoteRow from '../../components/NoteRow.astro';
+
+const notes = (await getCollection('notas')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<BaseLayout title="Notas — WildSoft">
+  <Header />
+  <section class="section" style="padding-top: 60px;">
+    <div style="border-top: 1px solid var(--border); padding-top: 30px; margin-bottom: 34px;">
+      <h1 style="font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 44px; margin: 0;">Notas <span class="mono" style="font-size: 13px; color: var(--muted); letter-spacing: 0.1em;">/ FIELD NOTES</span></h1>
+    </div>
+    <div style="display: flex; flex-direction: column;">
+      {notes.map((note) => (
+        <NoteRow slug={note.slug} title={note.data.title} date={note.data.date} excerpt={note.data.excerpt} />
+      ))}
+    </div>
+  </section>
+  <Footer />
+</BaseLayout>
